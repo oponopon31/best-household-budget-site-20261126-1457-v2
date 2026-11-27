@@ -85,8 +85,8 @@ export function mountCalculators() {
         <div class="stat"><span>Total bunga</span><strong>${rupiah(plan.totalInterest)}</strong></div>
         <div class="stat"><span>Total dibayar</span><strong>${rupiah(principal + plan.totalInterest)}</strong></div>
       </div>
-      <table class="tbl"><thead><tr><th>Bulan</th><th>Bunga</th><th>Pokok</th><th>Sisa utang</th></tr></thead>
-      <tbody>${shown.map((r) => `<tr><td>${r.month}</td><td>${rupiah(r.interest)}</td><td>${rupiah(r.principal)}</td><td>${rupiah(r.balance)}</td></tr>`).join('')}</tbody></table>
+      <div class="tbl-wrap"><table class="tbl"><thead><tr><th>Bulan</th><th>Bunga</th><th>Pokok</th><th>Sisa utang</th></tr></thead>
+      <tbody>${shown.map((r) => `<tr><td>${r.month}</td><td>${rupiah(r.interest)}</td><td>${rupiah(r.principal)}</td><td>${rupiah(r.balance)}</td></tr>`).join('')}</tbody></table></div>
       ${more > 0 ? `<p class="fineprint">+ ${more} bulan berikutnya dengan pola yang sama sampai lunas.</p>` : ''}`;
   }
 

@@ -131,6 +131,10 @@ h3 { font-size: 18px; margin: 18px 0 8px; }
   align-items: start;
 }
 .grid-2 > .card { margin-bottom: 0; }
+/* Grid children must be allowed to shrink below their min-content width,
+   or a long Rp figure forces the whole grid wider than a phone screen. */
+.grid-2 > *, .stat-grid > * { min-width: 0; }
+.stat-card, .stat { overflow-wrap: break-word; }
 .grid-2 { margin-bottom: 18px; }
 
 /* ---- hero ---- */
@@ -225,6 +229,7 @@ h3 { font-size: 18px; margin: 18px 0 8px; }
 .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
 input[type="number"], input[type="text"], input[type="date"], select {
   width: 100%;
+  min-width: 0;
   padding: 10px 12px;
   font-size: 16px;
   border: 1.5px solid #d6d0c2;
@@ -337,6 +342,9 @@ input:focus, select:focus { outline: 2px solid var(--green-mid); outline-offset:
 
 /* ---- tables & lists ---- */
 .tbl { width: 100%; border-collapse: collapse; font-size: 15px; }
+/* Tables sit inside a .tbl-wrap that scrolls sideways on a phone instead
+   of stretching the page past the viewport (see render.js). */
+.tbl-wrap { overflow-x: auto; max-width: 100%; }
 .tbl th, .tbl td { text-align: left; padding: 9px 8px; border-bottom: 1px solid var(--line); }
 .tbl th { color: var(--muted); font-size: 13px; text-transform: uppercase; letter-spacing: 0.4px; }
 .tbl tr:last-child td { border-bottom: none; }
@@ -417,4 +425,16 @@ footer strong { color: var(--ink); }
   .mbar-val { display: none; }
   .tbl { font-size: 14px; }
   .tx-list li { flex-wrap: wrap; }
+}
+
+/* ---- very narrow phones: figures must fit two-across stat cards ---- */
+@media (max-width: 480px) {
+  main { padding: 16px 12px 32px; }
+  .topbar { padding: 12px 12px 0; }
+  .card { padding: 16px; }
+  .stat-grid { gap: 10px; }
+  .stat-card, .stat { padding: 12px; }
+  .stat-card > strong, .stat > strong { font-size: 20px; }
+  .hero { padding: 20px 16px; }
+  .hero-card strong { font-size: 30px; }
 }

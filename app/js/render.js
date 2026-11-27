@@ -185,12 +185,12 @@ function monthlyPage() {
   <div class="card"><h2>Tabungan tiap bulan</h2>${lineChart(chartPoints)}
     <p class="fineprint">Total ditabung 12 bulan: <strong>${rupiah(MONTHLY.reduce((s, m) => s + (income - m.spend), 0))}</strong>. Bulan Agustus paling kecil tabungannya (${rupiah(income - worst.spend)}) karena belanja paling besar.</p></div>
   <div class="card"><h2>Tabel 12 bulan</h2>
-    <table class="tbl"><thead><tr><th>Bulan</th><th>Penghasilan</th><th>Belanja</th><th>Ditabung</th><th>vs bulan lalu</th></tr></thead><tbody>
+    <div class="tbl-wrap"><table class="tbl"><thead><tr><th>Bulan</th><th>Penghasilan</th><th>Belanja</th><th>Ditabung</th><th>vs bulan lalu</th></tr></thead><tbody>
     ${rows.map((m, i) => {
       const prev = MONTHLY[MONTHLY.findIndex((x) => x.month === m.month) - 1];
       const d = prev ? m.spend - prev.spend : 0;
       return `<tr><td><strong>${bulanIndo(m.month)}</strong></td><td>${rupiah(income)}</td><td>${rupiah(m.spend)}</td><td class="good">${rupiah(income - m.spend)}</td><td>${i === rows.length - 1 ? '—' : deltaRupiah(d)}</td></tr>`;
-    }).join('')}</tbody></table></div>`;
+    }).join('')}</tbody></table></div></div>`;
 }
 
 // ---- Savings goals ----
@@ -256,12 +256,12 @@ function billsPage(state) {
     <p class="lede">Delapan tagihan rutin keluarga contoh. Total tagihan November ${rupiah(paidTotal + unpaidTotal)} — sudah lunas ${rupiah(paidTotal)}, belum lunas ${rupiah(unpaidTotal)}.</p>
   </section>
   <div class="card"><h2>Jadwal tagihan November 2026</h2>
-    <table class="tbl"><thead><tr><th>Tagihan</th><th>Jatuh tempo</th><th>Jumlah</th><th>Status</th><th></th></tr></thead><tbody>
+    <div class="tbl-wrap"><table class="tbl"><thead><tr><th>Tagihan</th><th>Jatuh tempo</th><th>Jumlah</th><th>Status</th><th></th></tr></thead><tbody>
     ${[...state.bills].sort((a, b) => a.dueDay - b.dueDay).map((b) => `<tr>
       <td><strong>${esc(b.name)}</strong></td><td>${b.dueDay} Nov 2026</td><td>${rupiah(b.amount)}</td>
       <td>${b.paid ? '<span class="tag ok">Lunas</span>' : '<span class="tag due">Belum lunas</span>'}</td>
       <td><button class="btn small ${b.paid ? 'ghost' : ''}" type="button" data-bill="${b.id}">${b.paid ? 'Batalkan' : 'Tandai lunas'}</button></td>
-    </tr>`).join('')}</tbody></table>
+    </tr>`).join('')}</tbody></table></div>
     <p class="fineprint">Ketuk “Tandai lunas” saat sudah dibayar — status tersimpan di peramban ini. Iuran RT Rp50.000 (5 Nov) masih belum lunas karena dibayar tunai ke ketua RT.</p></div>
   <div class="card"><h2>Tips tagihan</h2><ul class="watch">
     <li>Bayar tagihan tetap (kontrakan, BPJS, internet) di awal bulan, begitu gaji masuk.</li>
@@ -302,10 +302,10 @@ function yearlyPage() {
     <div id="year-result"></div>
   </div>
   <div class="card"><h2>Anggaran 2027 per kategori</h2>
-    <table class="tbl"><thead><tr><th>Kategori</th><th>Per bulan</th><th>Setahun</th></tr></thead><tbody>
+    <div class="tbl-wrap"><table class="tbl"><thead><tr><th>Kategori</th><th>Per bulan</th><th>Setahun</th></tr></thead><tbody>
     ${CATEGORIES.map((c) => `<tr><td><strong>${esc(c.name)}</strong></td><td>${rupiah(c.budget)}</td><td>${rupiah(c.budget * 12)}</td></tr>`).join('')}
     <tr><td><strong>Total anggaran</strong></td><td><strong>${rupiah(CATEGORIES.reduce((s, c) => s + c.budget, 0))}</strong></td><td><strong>${rupiah(CATEGORIES.reduce((s, c) => s + c.budget, 0) * 12)}</strong></td></tr>
-    </tbody></table>
+    </tbody></table></div>
     <p class="fineprint">Anggaran tahunan = anggaran bulanan × 12. Dana darurat penuh (${rupiah(19500000)}) tercapai pada 2027 bila tabungan bulanan dijaga di atas ${rupiah(1000000)}.</p></div>`;
 }
 
